@@ -53,6 +53,20 @@ public class XMLConector {
 		return components.toArray(new ElectricComponent[components.size()]);
 	}
 
+	public ElectricComponent getElectricComponentById(int id) {
+		Element root = (Element) xmlDoc.getFirstChild();
+		NodeList list = root.getElementsByTagName("component");
+		ElectricComponent component = null;
+		for (int i = 0; i < list.getLength(); i++) {
+			Element e = (Element) list.item(i);
+			if (e.getAttribute("id").equals("" + id)) {
+				component = parseElement(e);
+				return component;
+			}
+		}
+		return null;
+	}
+
 	public ElectricComponent parseElement(Element componentElement) {
 		NodeList info = componentElement.getChildNodes();
 		ArrayList<Info> infos = new ArrayList<>();
@@ -77,7 +91,16 @@ public class XMLConector {
 			throws FileNotFoundException, IOException {
 		Element root = (Element) xmlDoc.getFirstChild();
 
+		NodeList n = root.getElementsByTagName("electricComponents");
+
+		int newId = 0;
+		if (n.getLength() != 0) {
+			Element e = (Element) n.item(n.getLength() - 1);
+			newId = Integer.parseInt(e.getAttribute("id")) + 1;
+		}
+
 		Element com = xmlDoc.createElement("electricComponents");
+		com.setAttribute("id", "" + newId);
 
 		for (Info f : c.getAllInfo()) {
 			if (f.getTitle().equals("use") || f.getTitle().equals("price")) {

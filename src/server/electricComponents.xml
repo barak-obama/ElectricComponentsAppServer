@@ -1,4 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <electricComponents>
-	
+    <electricComponents id="0">
+        <hahaha1>hahahahahah</hahaha1>
+        <hahaha2>hahahahahah</hahaha2>
+        <hahaha3>hahahahahah</hahaha3>
+        <hahaha4>hahahahahah</hahaha4>
+        <hahaha5>hahahahahah</hahaha5>
+        <hahaha6>hahahahahah</hahaha6>
+        <hahaha7>hahahahahah</hahaha7>
+        <price>3</price>
+        <price>5</price>
+        <price>8</price>
+        <price>10.2</price>
+        <use>kill</use>
+        <use>ugbfuvbshvio</use>
+        <use>pp</use>
+        <use>p</use>
+    </electricComponents>
+    <electricComponents id="1">
+        <hahaha1>hahahahahah</hahaha1>
+        <hahaha2>hahahahahah</hahaha2>
+        <hahaha3>hahahahahah</hahaha3>
+        <hahaha4>hahahahahah</hahaha4>
+        <hahaha5>hahahahahah</hahaha5>
+        <hahaha6>hahahahahah</hahaha6>
+        <hahaha7>hahahahahah</hahaha7>
+        <price>3</price>
+        <price>5</price>
+        <price>8</price>
+        <price>10.2</price>
+        <use>kill</use>
+        <use>ugbfuvbshvio</use>
+        <use>pp</use>
+        <use>p</use>
+    </electricComponents>
 </electricComponents>

@@ -13,7 +13,7 @@ import java.util.function.BiConsumer;
  */
 public class ElectricComponent implements Serializable{
 	public List<Info> info = new ArrayList<>();
-    public ElectricComponent(Info... info) {
+    public ElectricComponent( Info... info) {
     	for(Info f : info){
     		this.info.add(f);
     	}
