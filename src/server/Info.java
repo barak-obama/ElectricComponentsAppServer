@@ -17,7 +17,7 @@ public class Info{
 		return info;
 	}
 	public String toString(){
-		return getTitle() + ":::" + getInfo();
+		return getTitle() + User.BETWEAN_TITLE_AND_INFO_SPACER + getInfo();
 	}
 	
 	

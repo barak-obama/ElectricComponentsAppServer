@@ -74,6 +74,7 @@ public class XMLConector {
 			Element e = (Element) info.item(i);
 			infos.add(new Info(e.getTagName(), e.getTextContent()));
 		}
+		infos.add(new Info("id", componentElement.getAttribute("id")));
 		return new ElectricComponent(infos.toArray(new Info[infos.size()]));
 	}
 
@@ -112,16 +113,22 @@ public class XMLConector {
 			e.printStackTrace();
 		}
 	}
-	
-	public Info[] getTitles(){
+
+	public String getTitles() {
 		ElectricComponent[] com = getElectricComponents();
-		Info[] i = new Info[com.length];
-		for(int k = 0; k < i.length; k++){
-			i[k] = new Info(com[k].getInfoByTitle("name").getInfo(), com[k].getInfoByTitle("image").getInfo());
+		String kkkk = "{";
+		for (int k = 0; k < com.length; k++) {
+			String g = com[k].getInfoByTitle("name").getInfo()
+					+ User.BETWEAN_TITLE_AND_INFO_SPACER
+					+ com[k].getInfoByTitle("image").getInfo()
+					+ User.BETWEAN_TITLE_AND_INFO_SPACER
+					+ com[k].getInfoByTitle("id").getInfo();
+			kkkk = (k!=0?User.PROP_SPACER:"") + kkkk + g;
 		}
-		return i;
+		kkkk = kkkk + "}";
+		return kkkk;
 	}
-	
+
 	public static void main(String[] args) throws FileNotFoundException,
 			IOException {
 		ArrayList<Info> fff = new ArrayList<>();

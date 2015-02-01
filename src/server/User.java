@@ -16,7 +16,7 @@ public class User implements Runnable {
 	BufferedWriter writer;
 	BufferedReader reader;
 	NetWorker netWorker;
-	public static final String SPACER = "Ã", PROP_SPACER = "Â",
+	public static final String INFO_SPACER = "Ã", PROP_SPACER = "Â",
 			BETWEAN_TITLE_AND_INFO_SPACER = "Ç";
 
 	enum Option {
@@ -37,7 +37,7 @@ public class User implements Runnable {
 		String s = null;
 		while (isRunning()) {
 			if (s != null) {
-				String[] info = s.split(SPACER);
+				String[] info = s.split(User.INFO_SPACER);
 				Option p = Option.valueOf(info[0]);
 				switch (p) {
 				case GET_COMPONENT:
@@ -69,12 +69,8 @@ public class User implements Runnable {
 	}
 
 	private void sendTitles() throws IOException {
-		Info[] kk = netWorker.xml.getTitles();
-		String[] ss = new String[kk.length];
-		for (int i = 0; i < ss.length; i++) {
-			ss[i] = kk[i].toString();
-		}
-		String massege = Option.TITLES +SPACER +"{" + String.join(PROP_SPACER,ss) + "}";
+		String kk = netWorker.xml.getTitles();
+		String massege = Option.TITLES +User.INFO_SPACER + kk;
 		writer.write(massege);
 		writer.flush();
 		

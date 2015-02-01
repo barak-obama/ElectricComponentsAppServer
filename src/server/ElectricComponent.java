@@ -14,15 +14,7 @@ public class ElectricComponent {
     		this.info.add(f);
     	}
     }
-    public Info getInfo(String title){
-    	for (Info f: info){
-    		if(f.getTitle().equals(title)){
-    			return f;
-    		}
-    			
-    	}
-    	return null;
-    }
+
     public List<Info> getAllInfo(){
     	return info;
     }
