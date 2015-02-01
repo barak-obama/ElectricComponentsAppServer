@@ -70,20 +70,10 @@ public class XMLConector {
 	public ElectricComponent parseElement(Element componentElement) {
 		NodeList info = componentElement.getChildNodes();
 		ArrayList<Info> infos = new ArrayList<>();
-		ArrayList<Double> prices = new ArrayList<>();
-		ArrayList<String> uses = new ArrayList<>();
 		for (int i = 0; i < info.getLength(); i++) {
 			Element e = (Element) info.item(i);
-			if (e.getTagName().equals("price")) {
-				prices.add(Double.parseDouble(e.getTextContent()));
-			} else if (e.getTagName().equals("use")) {
-				uses.add(e.getTextContent());
-			} else {
-				infos.add(new Info(e.getTagName(), e.getTextContent()));
-			}
+			infos.add(new Info(e.getTagName(), e.getTextContent()));
 		}
-		infos.add(new Info("price", prices.toString()));
-		infos.add(new Info("use", uses.toString()));
 		return new ElectricComponent(infos.toArray(new Info[infos.size()]));
 	}
 
@@ -103,16 +93,6 @@ public class XMLConector {
 		com.setAttribute("id", "" + newId);
 
 		for (Info f : c.getAllInfo()) {
-			if (f.getTitle().equals("use") || f.getTitle().equals("price")) {
-				String s = f.getInfo().substring(1, f.getInfo().length() - 1);
-				String[] uses = s.split(",");
-				for (String k : uses) {
-					Element inf = xmlDoc.createElement(f.getTitle());
-					inf.setTextContent(k);
-					com.appendChild(inf);
-				}
-				continue;
-			}
 			Element inf = xmlDoc.createElement(f.getTitle());
 			inf.setTextContent(f.getInfo());
 			com.appendChild(inf);

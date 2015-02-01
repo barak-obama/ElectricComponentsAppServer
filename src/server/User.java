@@ -15,20 +15,21 @@ public class User implements Runnable {
 	Socket socket;
 	BufferedWriter writer;
 	BufferedReader reader;
-	public static final String SPACER = "ÃÄ";
-	
-	
+	NetWorker netWorker;
+	public static final String SPACER = "Ã", PROP_SPACER = "Â",
+			BETWEAN_TITLE_AND_INFO_SPACER = "Ç";
+
 	enum Option {
-		GET_COMPONENT, ADD_COMPONENTS, EXIT,
+		GET_COMPONENT, ADD_COMPONENTS, EXIT,GET_TITLES;
 	}
 
-	public User(Socket s) throws IOException {
+	public User(Socket s, NetWorker netWorker) throws IOException {
 		socket = s;
 		reader = new BufferedReader(new InputStreamReader(s.getInputStream()));
 		writer = new BufferedWriter(new OutputStreamWriter(s.getOutputStream()));
-
+		this.netWorker = netWorker;
 	}
-	private boolean addComponnents;
+
 	@Override
 	public void run() {
 		String s = null;
@@ -38,39 +39,74 @@ public class User implements Runnable {
 				Option p = Option.valueOf(info[0]);
 				switch (p) {
 				case GET_COMPONENT:
-					sendComponent(Integer.parseInt(info[1]));
+					try {
+						sendComponent(Integer.parseInt(info[1]));
+					} catch (NumberFormatException | IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					break;
 				case ADD_COMPONENTS:
-					addComponnents = true;
+					addComponnent(info[2]);
 					break;
 				case EXIT:
 					end();
+					break;
+				case GET_TITLES:
+					sendTitles();
 					break;
 				}
 			}
 		}
 
 	}
-	private void sendComponent(int id) {
-		ElectricComponent ec = xml.
+
+	private void sendTitles() {
+		// TODO Auto-generated method stub
 		
 	}
-	private boolean running = true;
-	private boolean isRunning() {
+
+	private void addComponnent(String string) {
 		// TODO Auto-generated method stub
-		return running;
-	}
-	
-	private void end(){
-		running = false;
+		
 	}
 
-	private void sendComponents(File file) throws IOException {
-		BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
-		for(String line : (String [])reader.lines().toArray()) {
-			writer.write(line);
-			writer.flush();
+	private void sendComponent(int id) throws IOException {
+		ElectricComponent ec = netWorker.xml.getElectricComponentById(id);
+		StringBuilder sb = new StringBuilder();
+		sb.append("{");
+		Info f = ec.info.get(0);
+		sb.append(f.getTitle() + BETWEAN_TITLE_AND_INFO_SPACER + f.getInfo());
+		for (int i = 1; i < ec.info.size(); i++) {
+			f = ec.info.get(0);
+			sb.append(PROP_SPACER + f.getTitle()
+					+ BETWEAN_TITLE_AND_INFO_SPACER + f.getInfo());
 		}
+		sb.append("}");
+		writer.write(sb.toString());
+
+	}
+
+	private boolean running = true;
+
+	private boolean isRunning() {
+
+		return running;
+	}
+
+	private void end() {
+		netWorker.users.remove(this);
+
+		try {
+			writer.close();
+			reader.close();
+			socket.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		running = false;
 	}
 
 }
