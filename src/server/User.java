@@ -27,7 +27,9 @@ public class User implements Runnable {
 		socket = s;
 		reader = new BufferedReader(new InputStreamReader(s.getInputStream()));
 		writer = new BufferedWriter(new OutputStreamWriter(s.getOutputStream()));
+		conector = new Thread(this);
 		this.netWorker = netWorker;
+		conector.start();
 	}
 
 	@Override
