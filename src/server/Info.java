@@ -16,6 +16,9 @@ public class Info{
 	public String getInfo() {
 		return info;
 	}
+	public String toString(){
+		return getTitle() + ":::" + getInfo();
+	}
 	
 	
 }

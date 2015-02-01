@@ -1,17 +1,13 @@
 package server;
 
-import java.io.File;
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.List;
-import java.util.function.BiConsumer;
+
 
 /**
  * Created by obama on 23/01/15.
  */
-public class ElectricComponent implements Serializable{
+public class ElectricComponent {
 	public List<Info> info = new ArrayList<>();
     public ElectricComponent( Info... info) {
     	for(Info f : info){
@@ -29,5 +25,14 @@ public class ElectricComponent implements Serializable{
     }
     public List<Info> getAllInfo(){
     	return info;
+    }
+    
+    public Info getInfoByTitle(String title){
+    	for (Info inf: info) {
+			if(inf.getTitle().equals(title)){
+				return inf;
+			}
+		}
+    	return null;
     }
 }

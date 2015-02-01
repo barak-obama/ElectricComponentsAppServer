@@ -20,7 +20,7 @@ public class User implements Runnable {
 			BETWEAN_TITLE_AND_INFO_SPACER = "Ç";
 
 	enum Option {
-		GET_COMPONENT, ADD_COMPONENTS, EXIT,GET_TITLES;
+		GET_COMPONENT, ADD_COMPONENTS, EXIT,GET_TITLES,TITLES
 	}
 
 	public User(Socket s, NetWorker netWorker) throws IOException {
@@ -53,7 +53,12 @@ public class User implements Runnable {
 					end();
 					break;
 				case GET_TITLES:
-					sendTitles();
+					try {
+						sendTitles();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					break;
 				}
 			}
@@ -61,13 +66,25 @@ public class User implements Runnable {
 
 	}
 
-	private void sendTitles() {
-		// TODO Auto-generated method stub
+	private void sendTitles() throws IOException {
+		Info[] kk = netWorker.xml.getTitles();
+		String[] ss = new String[kk.length];
+		for (int i = 0; i < ss.length; i++) {
+			ss[i] = kk[i].toString();
+		}
+		String massege = Option.TITLES +SPACER +"{" + String.join(PROP_SPACER,ss) + "}";
+		writer.write(massege);
+		writer.flush();
 		
 	}
 
 	private void addComponnent(String string) {
-		// TODO Auto-generated method stub
+		try {
+			netWorker.xml.saveElectricComponent(parse(string));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 
@@ -93,7 +110,18 @@ public class User implements Runnable {
 
 		return running;
 	}
-
+	
+	public ElectricComponent parse(String s){
+		s = s.substring(1, s.length() - 1);
+		String[] infos = s.split(PROP_SPACER);
+		Info[] inf = new Info[infos.length];
+		for(int i = 0; i < inf.length; i++ ){
+			String[] p = infos[i].split(BETWEAN_TITLE_AND_INFO_SPACER);
+			inf[i] = new Info(p[0], p[1]);
+		}
+		return new ElectricComponent(inf);
+		
+	}
 	private void end() {
 		netWorker.users.remove(this);
 

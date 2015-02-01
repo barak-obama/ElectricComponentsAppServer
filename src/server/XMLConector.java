@@ -112,7 +112,16 @@ public class XMLConector {
 			e.printStackTrace();
 		}
 	}
-
+	
+	public Info[] getTitles(){
+		ElectricComponent[] com = getElectricComponents();
+		Info[] i = new Info[com.length];
+		for(int k = 0; k < i.length; k++){
+			i[k] = new Info(com[k].getInfoByTitle("name").getInfo(), com[k].getInfoByTitle("image").getInfo());
+		}
+		return i;
+	}
+	
 	public static void main(String[] args) throws FileNotFoundException,
 			IOException {
 		ArrayList<Info> fff = new ArrayList<>();
